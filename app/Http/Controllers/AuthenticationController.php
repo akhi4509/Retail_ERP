@@ -37,14 +37,21 @@ class AuthenticationController extends Controller
         // dd($request);exit;
 
         // check the requedt of only email and password
+        // $credentials = $request->only('email', 'password');
+        // if (Auth::attempt($credentials)) {
+        //     return redirect()->intended('dashboard')
+        //                 ->withSuccess('Signed in');
+        // }
+
         $credentials = $request->only('email', 'password');
+
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
-                        ->withSuccess('Signed in');
+            // Authentication passed
+            return redirect()->intended('/dashboard');
         }
 
-        return redirect("login")->withSuccess('Login Details Are Not Valid');
-
+        // return redirect("login")->withSuccess('Login Details Are Not Valid');
+        return redirect()->back()->withInput()->withErrors(['password' => 'Incorrect email or password.']);
 
     }
 

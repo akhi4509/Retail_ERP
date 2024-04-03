@@ -34,7 +34,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('setting') }}">
+            <a class="nav-link" href="{{ url('settings') }}">
                 <i class="mdi mdi-emoticon menu-icon"></i>
                 <span class="menu-title">Settings</span>
             </a>
