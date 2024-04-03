@@ -34,106 +34,40 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($stocks as $stock)
                         <tr>
                             <td class="text-center">
-                                <h6>26-03-2024</h6>
+                                <h6>{{ $stock->created_at }}</h6>
                             </td>
                             <td>
-                                <p>Product ID: 88765449</p>
-                                <h6>Product Title</h6>
-                                <p>Here will be goes product details.</p>
-                                <p>Purchase at <strong>Rs 200/-</strong>, Sale at <strong>Rs 200/-</strong>, inlude tax Rs. 0/-, discount Rs. 0/-</p>
+                                <p>Product ID: {{ $stock->id }}</p>
+                                <h6>{{$stock->name}}</h6>
+                                <p>{{$stock->description}}</p>
+                                <p>Purchase at <strong>Rs {{$stock->unitPurchPrice}}/-</strong>,  inlude tax Rs. {{$stock->saleTax}}/-, discount Rs. {{$stock->saleDisount}}/-, Sale at <strong>Rs {{$stock->unitSaleAmt}}/-</strong></p>
                             </td>
                             <td class="text-center">
-                                <h6>12</h6>
+                                <h6>{{$stock->unit}}</h6>
                             </td>
                             <td>
-                                <h6>Sale Rs. 4000/-</h6>
-                                <h6>Purchase Rs. 2000/-</h6>
-                                <h6>Profit Rs. 2000/-</h6>
+                                <h6>Sale Rs. {{$stock->totalSaleAmount}}/-</h6>
+                                <h6>Purchase Rs. {{$stock->totalPurchAmount}}/-</h6>
+                                <h6>Profit Rs. {{$stock->totalSaleAmount - $stock->totalPurchAmount}}/-</h6>
                             </td>
                             <td>
                                 <div class="btn-group btn-group-justified">
-                                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="{{url('stock/'.$stock->id)}}" class="btn btn-warning btn-sm">View</a>
+                                    <a href="{{url('stock/'.$stock->id.'/edit')}}" class="btn btn-primary btn-sm">Edit</a>
+                                    <form id="delete-stock-{{ $stock->id }}" action="{{ route('stocks.destroy', $stock->id) }}" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
+
+                                    <a href="{{ route('stocks.destroy', $stock->id) }}" onclick="event.preventDefault(); if(confirm('Are you sure?')) { document.getElementById('delete-stock-{{ $stock->id }}').submit(); }" class="btn btn-danger btn-sm">Delete</a>
+
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="text-center">
-                                <h6>26-03-2024</h6>
-                            </td>
-                            <td>
-                                <p>Product ID: 88765449</p>
-                                <h6>Product Title</h6>
-                                <p>Here will be goes product details.</p>
-                                <p>Purchase at <strong>Rs 200/-</strong>, Sale at <strong>Rs 200/-</strong>, inlude tax Rs. 0/-, discount Rs. 0/-</p>
-                            </td>
-                            <td class="text-center">
-                                <h6>12</h6>
-                            </td>
-                            <td>
-                                <h6>Sale Rs. 4000/-</h6>
-                                <h6>Purchase Rs. 2000/-</h6>
-                                <h6>Profit Rs. 2000/-</h6>
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-justified">
-                                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <h6>26-03-2024</h6>
-                            </td>
-                            <td>
-                                <p>Product ID: 88765449</p>
-                                <h6>Product Title</h6>
-                                <p>Here will be goes product details.</p>
-                                <p>Purchase at <strong>Rs 200/-</strong>, Sale at <strong>Rs 200/-</strong>, inlude tax Rs. 0/-, discount Rs. 0/-</p>
-                            </td>
-                            <td class="text-center">
-                                <h6>12</h6>
-                            </td>
-                            <td>
-                                <h6>Sale Rs. 4000/-</h6>
-                                <h6>Purchase Rs. 2000/-</h6>
-                                <h6>Profit Rs. 2000/-</h6>
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-justified">
-                                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <h6>26-03-2024</h6>
-                            </td>
-                            <td>
-                                <p>Product ID: 88765449</p>
-                                <h6>Product Title</h6>
-                                <p>Here will be goes product details.</p>
-                                <p>Purchase at <strong>Rs 200/-</strong>, Sale at <strong>Rs 200/-</strong>, inlude tax Rs. 0/-, discount Rs. 0/-</p>
-                            </td>
-                            <td class="text-center">
-                                <h6>12</h6>
-                            </td>
-                            <td>
-                                <h6>Sale Rs. 4000/-</h6>
-                                <h6>Purchase Rs. 2000/-</h6>
-                                <h6>Profit Rs. 2000/-</h6>
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-justified">
-                                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
 
                 </table>

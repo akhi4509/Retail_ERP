@@ -25,7 +25,8 @@
 </div>
 <div class="card mt-2">
     <div class="card-body">
-        <form action="" method="POST" name="stocks-add">
+        <form action="{{ url('stock') }}" method="POST" name="stocks-add" autocomplete="off">
+            {{ csrf_field() }}
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="form-group">
@@ -109,4 +110,85 @@
     </div>
 </div>
 
+@endsection
+
+@section('footer-scripts')
+<script>
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+
+$(document).ready(function(){
+  $('#units').val(0);
+  $('#upurprice').val(0);
+  $('#tax-percent').val(0);
+  calculation();
+});
+
+$('#units').on('keyup keypress blur change',function(){
+    console.log("hello");
+  calculation();
+});
+
+$('#upurprice').on('keyup keypress blur change',function(){
+  calculation();
+});
+
+$('#tax-percent').on('keyup keypress blur change', function(){
+  calculation();
+});
+
+
+$('#percent').on('keyup keypress blur change',function(){
+  calculation();
+});
+
+$('#discount').on('keyup keypress blur change',function(){
+  calculation();
+});
+
+
+function calculation(){
+  var units = parseInt($('#units').val());
+  var upurprice = parseFloat($('#upurprice').val());
+  var tamount = $('#tamount');
+  var usalprice = $('#usalprice');
+  var taxper = parseFloat($('#tax-percent').val());
+  var taxamt = $('#tax');
+  var percent = parseFloat($('#percent').val());
+  var discamt = $('#discount');
+  var unitsalamt = $('#unitsalamt');
+  var totsalamt = $('#totsalamt');
+
+
+  var profit_percent = {{ $profit }}
+  var totalPurchAmount = upurprice * units;
+
+  var sale_price = upurprice + (upurprice * profit_percent/100);
+
+  var tax_per = sale_price * taxper/100;
+
+  var discount = (sale_price + tax_per) * percent/100;
+  var unit_sale_price = (sale_price + tax_per) - discount;
+  var total_sale_amount = unit_sale_price * units;
+
+  tamount.val(totalPurchAmount);
+  usalprice.val(sale_price);
+
+  unitsalamt.val(unit_sale_price);
+  taxamt.val(tax_per);
+  discamt.val(discount);
+  totsalamt.val(total_sale_amount);
+
+
+}
+
+</script>
 @endsection

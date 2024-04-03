@@ -1,158 +1,133 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-
-  <div class="title">
-    <div class="row">
-      <div class="col-md-8">
-        <h1>View Stock</h1>
-      </div>
-      <div class="col-md-4">
-        <div class="btn-group btn-group-justified">
-          <a href="{{url('stock')}}" class="btn btn-info">Details</a>
-          <a href="{{url('dashboard')}}" class="btn btn-primary">Back</a>
-        </div>
-      </div>
+@extends('admin.layouts.app')
+@section('panel')
+<div class="row">
+    <div class="col-md-6">
+        <h3>View Stock</h3>
     </div>
-  </div>
-
-
-  <div class="details">
-      <div class="row">
-      <div class="col-md-6">
-        {{-- <h3 class="text-center">Product Details</h3> --}}
-        <div id="product-details">
-        <dl class="dl-horizontal">
-          <dt>Product Id</dt>
-          <dd>{{ $stock->id }}</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Entry Date</dt>
-          <dd>{{ $stock->created_at }}</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Product Name</dt>
-          <dd>{{ $stock->name }}</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Product Details</dt>
-          <dd>{{ $stock->description }}</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>No of Units</dt>
-          <dd>{{ $stock->unit }}</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Price per unit</dt>
-          <dd>Rs.{{ $stock->unitPurchPrice }}/-</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Sale Price/Unit</dt>
-          <dd>Rs.{{ $stock->unitSalePrice }}/-</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Tax</dt>
-          <dd>Rs.{{ $stock->saleTax }}/-</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Discount</dt>
-          <dd>Rs.{{ $stock->saleDisount }}/-</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Sale Net Price/Unit</dt>
-          <dd>Rs.{{ $stock->unitSaleAmt }}/-</dd>
-        </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Total Amount</dt>
-          <dd>Rs. {{ $stock->totalPurchAmount }}/-</dd>
-        </dl>
-
-      </div>
-      {{-- <div class="text-center">
-        <button class="btn btn-primary" onclick="printDiv('product-details')">Print Details</button>
-
-        <button class="btn btn-primary" onclick="printDiv('bar-code')">Print Code</button>
-
-        <a id="btn-download" class="btn btn-primary" href="#" download>Download Barcode</a>
-      </div> --}}
-      </div>
-
-      <div class="col-md-6">
-        <div class="barcode-area">
-          <h3 class="text-center" style="margin:0px;padding:0px;text-align:center">Barcode Genarator</h3>
-          <div class="row" style="margin-bottom:10px;">
-            <div class="col-xs-12">
-              {{-- Bar Code Gen --}}
-              <div id="bar-code" style="text-align:center">
-              <div style="font-size:30px;text-align:center"><b>{{ $set->business_name }}</b></div>
-                <div style="text-align:center">
-                  <img src="data:image/png;base64,{{DNS1D::getBarcodePNG("$stock->id", "C128")}}" alt="barcode"/>
-                </div>
-                <div style="margin-top:-5px;text-align:center"> -- {{ $stock->id }} -- </div>
-                <div style="text-align:center">
-                  <h1><strong>{{ $stock->name }}</h1>
-                  <h3>{{ $stock->description }}</h3>
-                  {{-- <del>Rs.{{ $stock->unitSaleAmt }}/-</del> --}}
-                  <h2><strong>Amount Rs. {{ $stock->unitSaleAmt - $stock->saleDisount }}/-</strong></h2>
-                </div>
-              </div>
-              {{-- Bar Code Gen --}}
+    <div class="col-md-6 d-flex justify-content-end align-items-center">
+        <a href="{{route('stocks')}}" class="btn btn-success btn-sm mx-1">
+            <div class="d-flex align-items-center">
+                <i class="mdi mdi-plus"></i>
+                <span>Details</span>
             </div>
-          </div>
-
-          {{-- BarCode Preview --}}
-          <div id="preview" class="row" style="border:1px solid black; height:350px;text-align:center; margin-bottom:20px;">
-            <h4>Downloadable Barcode Preview</h4>
-          </div>
-          {{-- BarCode Preview --}}
-
-          <div class="text-center">
-            <button class="btn btn-primary" onclick="printDiv('product-details')">Print Details</button>
-
-            <button class="btn btn-primary" onclick="printDiv('bar-code')">Print Code</button>
-
-            {{-- <button id="btn-preview-image" class="btn btn-primary">Preview Image</button> --}}
-
-            <a id="btn-download" class="btn btn-primary" href="#" download>Download Barcode</a>
-          </div>
-        </div>
-      </div>
-
+        </a>
+        <a href="{{url('dashboard')}}" class="btn btn-primary btn-sm">
+            <div class="d-flex align-items-center">
+                <i class="mdi mdi-arrow-left-bold"></i>
+                <span>Back</span>
+            </div>
+        </a>
     </div>
-  </div>
-
 </div>
-@endsection
+<div class="card mt-2">
+    <div class="card-body">
+        <div class="details">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="product-details" class="d-flex flex-wrap">
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Product Id:</label>
+                            <span>{{ $stock->id }}</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Entry Date:</label>
+                            <span>{{ $stock->created_at }}</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Product Name:</label>
+                            <span>{{ $stock->name }}</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Product Details:</label>
+                            <span>{{ $stock->description }}</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">No of Units:</label>
+                            <span>{{ $stock->unit }}</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Price per unit:</label>
+                            <span>Rs.{{ $stock->unitPurchPrice }}/-</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Sale Price/Unit:</label>
+                            <span>Rs.{{ $stock->unitSalePrice }}/-</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Tax:</label>
+                            <span>Rs.{{ $stock->saleTax }}/-</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Discount:</label>
+                            <span>Rs.{{ $stock->saleDisount }}/-</span>
+                        </div>
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <label class="fw-bold">Sale Net Price/Unit:</label>
+                            <span>Rs.{{ $stock->unitSaleAmt }}/-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="barcode-area text-center">
+                        <h3 class="mb-3">Barcode Generator</h3>
+                        <div id="bar-code">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div style="font-size: 30px;"><b>{{ $set->business_name }}</b></div>
+                            </div>
+                            <div class="col-md-4">
+                               <?php 
+                    $stoc = rand(100000000, 999999999);
+                  ?>
+                    <div class="text-center">{!!DNS1D::getBarcodeHTML($stoc, 'C128')!!}</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div style="margin-top: -5px;"> -- {{ $stock->id }} -- </div>
+                            </div>
+                        </div>
 
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div>
+                                    <h1><strong>{{ $stock->name }}</strong></h1>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div>
+                                    <h3>{{ $stock->description }}</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div>
+                                    <h2><strong>Amount Rs. {{ $stock->unitSaleAmt - $stock->saleDisount }}/-</strong></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div id="preview" class="row border border-dark rounded mb-3" style="height: 350px;">
+                            <h4>Downloadable Barcode Preview</h4>
+                        </div>
 
-@section('head-scripts')
-<style>
-.vertical-center-row {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-}
+                        <div>
+                            <button class="btn btn-primary mb-2" onclick="printDiv('product-details')">Print Details</button>
+                            <button class="btn btn-primary mb-2" onclick="printDiv('bar-code')">Print Code</button>
+                            {{-- <button id="btn-preview-image" class="btn btn-primary mb-2">Preview Image</button> --}}
+                            <a id="btn-download" class="btn btn-primary mb-2" href="#" download>Download Barcode</a>
+                        </div>
+                    
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-.table .input-group{
-  width: 100% !important;
-  display: block;
-}
-</style>
 @endsection
 
 @section('footer-scripts')
-<script src="{{ asset('js/html2canvas.js') }}"></script>
+<script src="{{ asset('assets/js/html2canvas.js') }}"></script>
 
 {{-- <script>
 $(function(){
@@ -175,7 +150,7 @@ $(function(){
        });
     });
 
-	$("#btn-download").on('click', function () {
+    $("#btn-download").on('click', function () {
     if (capturedData === void 0) {
       alert("Please preview before downloading.");
     } else {
