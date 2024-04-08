@@ -38,7 +38,7 @@ class SaleController extends Controller
 
       if($request->units != 0){
 
-      	dd($request->units);exit();
+      	
         $sale = new Sale();
         $sale->name = $request->odname;
         $sale->details = $request->oddetails;
