@@ -13,9 +13,11 @@ use Darryldecode\Cart\CartCondition as Condition;
 class SaleController extends Controller
 {
     public function index(){
+          if(!Cart::isEmpty())
+          Cart::clear();
 
-        return view('admin.sale.sales');
-
+        $sales = Sale::orderBy("created_at", "desc")->paginate(5);
+        return view('admin.sale.sales', compact('sales'));
        }
 
        public function create(){

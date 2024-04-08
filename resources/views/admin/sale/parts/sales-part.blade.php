@@ -8,9 +8,10 @@
     </tr>
   </thead>
   <tbody>
+    @foreach ($sales as $sale)
   <tr>
       <td class="text-center">
-        <h4>02-03-2024</h4>
+        <h4>{{ explode(' ',$sale->created_at)[0] }}</h4>
         <div class="row">
           <div class="col-xs-12">
             <div class="btn-group btn-group-justified">
@@ -18,44 +19,38 @@
               <a href="" class="btn btn-danger btn-sm btn-block">Return</a>
             </div>
           </div>
+          {{--<form class="form-group" action="{{url('sales/'.$sale->id)}}" method="post">
+             {{ csrf_field() }}
+             {{ method_field('DELETE') }}
+             <input type="hidden" name="id" value="{{$sale->id}}" />
+            <button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
+          </form>--}}
       </div>
       </td>
       <td>
-        <p>Sale ID: 123, Ref No: abc, Status: sale</p>
+        <p>Sale ID: {{$sale->id}}, Ref No: {{$sale->name}}, Status: {{$sale->status}}</p>
 
-          <h6>PID:, Name:, Qty:, Price:, ST:, Disc:, Status:</h6>
+           @php
+          $details = json_decode($sale->details, true);
+        @endphp
+        @foreach ($details as $dt)
+          <h6>PID:{{$dt['id']}}, Name:{{$dt['name']}}, Qty:{{$dt['quantity']}}, Price:{{$dt['price']}}, ST:{{$dt['attributes']['tax']}}, Disc:{{$dt['attributes']['discount']}}, Status:{{$dt['attributes']['status']}}</h6>
+        @endforeach
+        <p>
+          {{$sale->cgstPercent}}% CGST Rs. {{$sale->cgstAmt}}/-, {{$sale->sgstPercent}}% SGST Rs. {{$sale->sgstAmt}}/-, {{$sale->discountPercent}}% Discount Rs. {{$sale->discountAmt}}/-
+        </p>
 
         <p>
         </p>
       </td>
       <td class="text-center">
-        <h3>3</h3>
+        <h3>{{$sale->unit}}</h3>
       </td>
       <td>
-        <h4>Total Amount Rs. 40,000/-</h4>
+        <h4>Total Amount Rs. {{$sale->totalAmt}}/-</h4>
       </td>
     </tr>
-
-  {{-- <tr>
-    <td class="text-center">
-      <h3>12-12-2016</h3>
-      <div class="btn-group btn-group-justified">
-        <a href="./edit-stocks" class="btn btn-primary btn-sm">Edit</a>
-        <a href="./delete-stocks" class="btn btn-danger btn-sm">Delete</a>
-      </div>
-    </td>
-    <td>
-      <h4>Product Title</h4>
-      <p>Here will be goes product details.</p>
-      <p><strong>Rs 200/-</strong> per unit cost</p>
-    </td>
-    <td class="text-center">
-      <h3>12</h3>
-    </td>
-    <td>
-      <h2>Rs. 2000/-</h2>
-    </td>
-  </tr> --}}
+    @endforeach
 
   </tbody>
 </table>

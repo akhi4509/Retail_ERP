@@ -29,20 +29,20 @@
             <div class="card-body dashboard-tabs p-0">
                 <ul class="nav nav-tabs px-4" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link" id="sales-tab" data-bs-toggle="tab" href="#sales" role="tab" aria-controls="sales" aria-selected="false">Sales</a>
+                        <a class="nav-link active" id="sales-tab" data-bs-toggle="tab" href="#sales" role="tab" aria-controls="sales" aria-selected="false">Sales</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" id="returns-tab" data-bs-toggle="tab" href="#returns" role="tab" aria-controls="returns" aria-selected="true">Returns</a>
+                        <a class="nav-link" id="returns-tab" data-bs-toggle="tab" href="#returns" role="tab" aria-controls="returns" aria-selected="true">Returns</a>
                     </li>
                 </ul>
                 <div class="tab-content py-0 px-0">
 
-                    <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-tab">
-                    @include('admin.sale.parts.sales-part')
+                    <div class="tab-pane fade show active" id="sales" role="tabpanel" aria-labelledby="sales-tab">
+                    @include('admin.sale.parts.sales-part',['sales'=>$sales])
 
                     </div>
 
-                    <div class="tab-pane fade show active" id="returns" role="tabpanel" aria-labelledby="returns-tab">
+                    <div class="tab-pane fade" id="returns" role="tabpanel" aria-labelledby="returns-tab">
                     @include('admin.sale.parts.return-part')
 
                     </div>
