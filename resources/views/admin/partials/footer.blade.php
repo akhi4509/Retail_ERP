@@ -4,3 +4,7 @@
         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard </a> templates</span>
     </div>
 </footer>
+<script src="{{ asset('assets/js/app.js') }}"></script>
+ @yield('footer-scripts')
+</body>
+</html>

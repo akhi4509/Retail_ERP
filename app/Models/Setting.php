@@ -15,7 +15,8 @@ class Setting extends Model
         'sales_profit',
         'discount',
         'cgst',
-        'sgst'
+        'sgst',
+        'user_id'
     ];
     // protected $attributes = [
     //     'business_name' => 'Default Business Name',

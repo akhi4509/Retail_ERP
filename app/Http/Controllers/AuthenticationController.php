@@ -98,11 +98,13 @@ class AuthenticationController extends Controller
     
     public function dashboard()
     {
+
         if(Auth::check()){
+            
             return view('dashboard');
         }
   
-        return redirect("dashboard")->withSuccess('You are not allowed to access');
+        return redirect("login")->withSuccess('Please login');
     }
     
     // this function is used for logout 

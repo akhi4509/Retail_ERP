@@ -33,11 +33,6 @@
                 <span class="menu-title">Reports</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url('settings') }}">
-                <i class="mdi mdi-emoticon menu-icon"></i>
-                <span class="menu-title">Settings</span>
-            </a>
-        </li>
+        
     </ul>
 </nav>

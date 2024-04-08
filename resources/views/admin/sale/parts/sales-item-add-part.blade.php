@@ -70,8 +70,10 @@
   <script>
       $(function() {
           // keyup keypress blur change
-          $('#pid').on('keyup change', function() {
+          $('#pid').on('change', function() {
+
               $.get("{{url('order/get')}}/" + $('#pid').val(), function(data) {
+
                   if (data !== '') {
                       console.log(data);
                       $('#pname').val(data.name);

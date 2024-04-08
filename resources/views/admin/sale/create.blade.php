@@ -31,6 +31,7 @@
             </div>
             <div class="col-md-8 mt-2">
                 <form action="{{url('sales')}}" method="post">
+                  {{ csrf_field() }}
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12">
@@ -59,16 +60,18 @@
                                             <th>&nbsp;</th>
                                         </tr>
                                         <tbody>
+                                            @foreach ($orders as $order)
                                             <tr>
-                                                <td>Hp</td>
+                                                <td>{{ $order->name }}</td>
                                                 <td>
-                                                    <input type="hidden" class="form-control text-right input-sm" name="unit" value="2">2
+                                                    <input type="hidden" class="form-control text-right input-sm" name="unit" value="{{ $order->quantity }}">{{ $order->quantity }}
                                                 </td>
-                                                <td>40,000</td>
+                                                <td>{{ $order->getPriceSum() }}</td>
                                                 <td>
-                                                    <a href="" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                                                    <a href="{{url('order/remove/'.$order->id)}}" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></a>
                                                 </td>
                                             </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -143,9 +146,9 @@
                                 <td class="text-right">&nbsp;</td>
                                 <td class="text-right" id="total"></td>
                                 <td>
-                                    <input type="hidden" id="units" name="units" value="" />
-                                    <input type="hidden" id="net_total" name="net_total" value="" />
-                                    <input type="hidden" id="put_total" name="put_total" value="" />
+                                    <input type="hidden" id="units" name="units" value="{{ $totalQualtity }}" />
+                                    <input type="hidden" id="net_total" name="net_total" value="{{ $total }}" />
+                                    <input type="hidden" id="put_total" name="put_total" value="{{ $total }}" />
                                     &nbsp;
                                 </td>
                             </tr>
@@ -175,4 +178,104 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer-scripts')
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+
+$(function(){
+  var date = new Date();
+  var day = date.getDate();
+  var mon = date.getMonth();
+  var yr = date.getFullYear();
+  var hr = date.getHours();
+  var min = date.getMinutes();
+  var sec = date.getSeconds();
+  $('#odname').val('ODR#'+day+''+mon+''+yr+''+hr+''+min+''+sec);
+
+  $('#cgst_percent').val({{ $set->cgst }});
+  $('#sgst_percent').val({{ $set->sgst }});
+  $('#discount_percent').val({{ $set->discount }});
+  discountCalculation();
+  sgstCalculation();
+  cgstCalculation();
+  addtion();
+});
+
+$('#cgst_amt').on('keyup keypress blur change', function(){
+  $('#cgst_percent').val(0);
+  addtion();
+});
+
+$('#sgst_amt').on('keyup keypress blur change', function(){
+  $('#sgst_percent').val(0);
+  addtion();
+});
+
+$('#discount_amt').on('keyup keypress blur change', function(){
+  $('#discount_percent').val(0);
+  addtion();
+});
+
+$('#discount_percent').on('keyup keypress blur change', function(){
+  discountCalculation();
+  sgstCalculation();
+  cgstCalculation();
+  addtion();
+});
+
+$('#cgst_percent').on('keyup keypress blur change', function(){
+  discountCalculation();
+  cgstCalculation();
+  sgstCalculation();
+  addtion();
+});
+
+$('#sgst_percent').on('keyup keypress blur change', function(){
+  discountCalculation();
+  sgstCalculation();
+  cgstCalculation();
+  addtion();
+});
+
+function discountCalculation(){
+    var discountPercent = parseFloat($('#discount_percent').val());
+  var net_total = parseFloat($('#net_total').val());
+
+  var discount = (net_total * discountPercent/100).toFixed(2);
+  $('#discount_amt').val(discount);
+}
+
+function cgstCalculation(){
+   var cgstPercent = parseFloat($('#cgst_percent').val());
+  var net_total = parseFloat($('#net_total').val());
+  var discount = parseFloat($('#discount_amt').val());
+
+  var cgst = ((net_total - discount) * cgstPercent/100).toFixed(2);
+  $('#cgst_amt').val(cgst);
+}
+
+function sgstCalculation(){
+var sgstPercent = parseFloat($('#sgst_percent').val());
+  var net_total = parseFloat($('#net_total').val());
+  var discount = parseFloat($('#discount_amt').val());
+
+  var sgst = ((net_total - discount) * sgstPercent/100).toFixed(2);
+  $('#sgst_amt').val(sgst);
+}
+
+function addtion(){
+  var net_total = parseFloat($('#net_total').val());
+  var cgst = parseFloat($('#cgst_amt').val());
+  var sgst = parseFloat($('#sgst_amt').val());
+  var discount = parseFloat($('#discount_amt').val());
+  var total = ((net_total - discount) + cgst + sgst).toFixed(2);
+
+  console.log(net_total, tax, discount, total);
+
+  $('#put_total').val(total);
+  $('#total').html(total);
+}
+</script>
 @endsection

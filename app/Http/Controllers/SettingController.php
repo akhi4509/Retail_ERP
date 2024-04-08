@@ -16,9 +16,11 @@ class SettingController extends Controller
     public function index()
     {
         //
-        $settings = Setting::first();
+        $settings = Setting::where('user_id', auth()->id())->first();
         return view('admin.setting.settings', compact('settings'));
+       
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -40,9 +42,13 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        Setting::create($request->all());
-        return redirect()->route('settings.index');
+        $settings = new Setting($request->all());
+        $settings->user_id = auth()->id();
+        $settings->save();
+
+        return redirect('/settings')->with('success', 'Setting record created successfully.');
     }
+
     
     /**
      * Display the specified resource.
@@ -61,12 +67,12 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+     public function edit($id)
     {
-        //
-
-        $setting = Setting::findOrFail($id);
-        return view('admin.setting.edit', compact('setting'));
+    //
+    
+        $settings = Setting::findOrFail($id);
+        return view('admin.setting.edit', compact('settings'));
     }
     
     /**
@@ -78,12 +84,12 @@ class SettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $setting = Setting::findOrFail($id);
-        $setting->update($request->all());
-        return redirect()->route('admin.settings.settings');
+       
+        $settings = Setting::findOrFail($id);
+        $settings->update($request->all());
+    
+        return redirect('/settings')->with('success', 'Setting record updated successfully.');
     }
-
     /**
      * Remove the specified resource from storage.
      *

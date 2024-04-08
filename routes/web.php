@@ -18,6 +18,9 @@ use App\Http\Controllers\AuthenticationController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return view('dashboard');
+});
 
 Route::get('/login', [AuthenticationController::class, 'index'])->name('admin.auth.login');
 
@@ -51,12 +54,14 @@ Route::get('/users/add', [UserController::class, 'create'])->name('users.add');
 
 
 // stocks route //
+Route::resource('stock', 'App\Http\Controllers\StockController');
 Route::get('stocks', [StockController::class, 'stock'])->name('stocks');
 Route::get('/stocks/create', [StockController::class, 'create'])->name('stocks.create');
 Route::get('/stocks/edit-stock', [StockController::class, 'edit_stock'])->name('stocks.edit.stock');
-
+Route::delete('/stocks/{stock}', 'App\Http\Controllers\StockController@destroy')->name('stocks.destroy');
 
 // Sales route //
+Route::resource('sales', 'App\Http\Controllers\SaleController');
 Route::get('sales', [SaleController::class, 'index'])->name('sales');
 Route::get('/sales/create', [SaleController::class, 'create'])->name('sales.create');
 
@@ -67,11 +72,17 @@ Route::get('report', [ReportController::class, 'index'])->name('report');
 
 //Setting Route//
 
-// Route::get('settings', [SettingController::class, 'index'])->name('setting');
-// Route::get('/settings', 'App\Http\Controllers\SettingController@index');
+Route::prefix('order')->group(function () {
+  Route::get('{id}', 'App\Http\Controllers\SaleController@order')->where('id', '[0-9]+');
+  // Route::get('return/{sid}/{id}', 'App\Http\Controllers\SalesController@orderReturn')->where(['sid'=>'[0-9]+', 'id'=> '[0-9]+']);
+  // Route::get('return/remove/{sid}/{id}', 'App\Http\Controllers\SalesController@deleteOrderReturn')->where(['sid'=>'[0-9]+', 'id'=> '[0-9]+']);
 
-// Route::post('/settings', 'SettingController@store')->name('setting.store');
-// Route::resource('settings', 'SettingController')->only(['index', 'store', 'update']);
+  // Route::get('clear', 'App\Http\Controllers\SalesController@clearOrder');
+  // Route::get('view', 'App\Http\Controllers\SalesController@viewOrder');
+   Route::get('remove/{id}', 'App\Http\Controllers\SaleController@deleteOrder')->where('id', '[0-9]+');
+  // Route::get('update/{id}/{qty}', 'App\Http\Controllers\SalesController@updateOrder')->where(['id' => '[0-9]+', 'qty' => '^[-+]?[0-9]+']);
+   Route::get('get/{id}', 'App\Http\Controllers\SaleController@getStock')->where('id', '[0-9]+');
+});
 
 Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
 Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
