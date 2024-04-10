@@ -94,3 +94,5 @@ Route::get('/settings', [SettingController::class, 'index'])->name('settings.ind
 Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
 Route::get('/settings/edit/{id}', [SettingController::class, 'edit'])->name('settings.edit');
 Route::put('/settings/{id}', [SettingController::class, 'update'])->name('settings.update');
+
+Route::post('fetch-reports', [ReportController::class, 'fetchReports'])->name('fetch.reports');

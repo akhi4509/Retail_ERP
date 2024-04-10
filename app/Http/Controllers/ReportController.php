@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Report;
 
 class ReportController extends Controller
 {
@@ -80,5 +81,19 @@ class ReportController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function fetchReports(Request $request)
+    {
+
+        // Fetch reports from the database based on start_date and end_date
+        $startDate = $request->start_date ;
+        $endDate = $request->end_date ;
+
+       $reports = Report::whereBetween('date', [date('d-m-Y', strtotime($startDate)), date('d-m-Y', strtotime($endDate))])->get();
+
+
+        // You can return the fetched reports as JSON
+        return response()->json($reports);
     }
 }
