@@ -15,8 +15,8 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="btn-group btn-group-justified">
-              <a href="" class="btn btn-success btn-sm btn-block">Print</a>
-              <a href="" class="btn btn-danger btn-sm btn-block">Return</a>
+              <a href="{{url('sales/'.$sale->id)}}" class="btn btn-success btn-sm btn-block">Print</a>
+              <a href="{{url('sales/'.$sale->id.'/edit')}}" class="btn btn-danger btn-sm btn-block">Return</a>
             </div>
           </div>
           {{--<form class="form-group" action="{{url('sales/'.$sale->id)}}" method="post">

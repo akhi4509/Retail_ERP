@@ -32,7 +32,7 @@ class SaleController extends Controller
        public function show(Sale $sale)
     {
       $set = Setting::find(1);
-      return view('sale.view',['sale'=>$sale, 'set'=>$set]);
+      return view('admin.sale.view',['sale'=>$sale, 'set'=>$set]);
     }
 
        public function store(Request $request)

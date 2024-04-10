@@ -51,6 +51,12 @@ Route::get('reset-password', function () {
 // Users route //
 Route::get('users', [UserController::class, 'index'])->name('users');
 Route::get('/users/add', [UserController::class, 'create'])->name('users.add');
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::get('/users/type/user', [UserController::class, 'showUsersOfTypeUser'])->name('users.type.user');
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+Route::get('/admin/users', [UserController::class, 'index'])->name('admin.user.users');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
 
 // stocks route //

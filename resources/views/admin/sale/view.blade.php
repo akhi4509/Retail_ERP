@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="container">
@@ -11,9 +11,9 @@
         <a class="btn btn-warning" onclick="printDiv('printDiv')">Print Bill</a>
         <a href="{{url('sales/create')}}" class="btn btn-success">Add</a>
         <a href="{{url('sales')}}" class="btn btn-info">Details</a>
-        @if (Auth::user()->type == "admin")
+        
             <a href="{{url('dashboard')}}" class="btn btn-primary">Back</a>
-        @endif
+       
       </div>
     </div>
   </div>
